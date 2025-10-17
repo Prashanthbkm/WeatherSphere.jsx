@@ -9,7 +9,8 @@ const WeatherSphere = () => {
   const [error, setError] = useState('');
   const [unit, setUnit] = useState('metric');
 
-  const API_KEY = "5b6d080e82a6827824dd5641ab464d26";
+// Temporary fix for testing:
+const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "5b6d080e82a6827824dd5641ab464d26";
 
   // Get current location on app start
   useEffect(() => {
