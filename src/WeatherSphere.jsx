@@ -11,7 +11,6 @@ const WeatherSphere = () => {
 
   // ✅ ONLY use environment variable - no hardcoded key
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
