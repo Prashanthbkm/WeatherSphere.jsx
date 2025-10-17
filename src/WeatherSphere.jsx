@@ -9,10 +9,9 @@ const WeatherSphere = () => {
   const [error, setError] = useState('');
   const [unit, setUnit] = useState('metric');
 
-// Temporary fix for testing:
-const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "5b6d080e82a6827824dd5641ab464d26";
+  // ✅ ONLY use environment variable - no hardcoded key
+  const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
-  // Get current location on app start
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -43,7 +42,7 @@ const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "5b6d080e82a6827824dd564
       const forecastData = await forecastResponse.json();
 
       setWeather(currentData);
-      setForecast(forecastData.list.slice(0, 5)); // Next 5 periods
+      setForecast(forecastData.list.slice(0, 5));
       setError('');
     } catch (err) {
       setError('Unable to fetch weather data');
@@ -116,7 +115,6 @@ const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "5b6d080e82a6827824dd564
 
   return (
     <div className="weather-sphere">
-      {/* Header Section */}
       <div className="sphere-header">
         <div className="header-content">
           <h1>🌍 WeatherSphere</h1>
@@ -127,7 +125,6 @@ const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "5b6d080e82a6827824dd564
         </button>
       </div>
 
-      {/* Search Section */}
       <div className="search-section">
         <form onSubmit={handleSubmit} className="search-form">
           <div className="input-container">
@@ -146,7 +143,6 @@ const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "5b6d080e82a6827824dd564
         </form>
       </div>
 
-      {/* Loading State */}
       {loading && (
         <div className="loading-state">
           <div className="pulse-loader"></div>
@@ -154,7 +150,6 @@ const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "5b6d080e82a6827824dd564
         </div>
       )}
 
-      {/* Error State */}
       {error && (
         <div className="error-state">
           <div className="error-icon">⚠️</div>
@@ -162,10 +157,8 @@ const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "5b6d080e82a6827824dd564
         </div>
       )}
 
-      {/* Main Weather Display */}
       {weather && !loading && (
         <div className="weather-display">
-          {/* Current Weather Card */}
           <div className="current-weather">
             <div className="location-info">
               <h2>{weather.name}, {weather.sys.country}</h2>
@@ -210,7 +203,6 @@ const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "5b6d080e82a6827824dd564
             </div>
           </div>
 
-          {/* Forecast Section */}
           {forecast.length > 0 && (
             <div className="forecast-section">
               <h3>Upcoming Forecast</h3>
@@ -235,7 +227,6 @@ const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "5b6d080e82a6827824dd564
             </div>
           )}
 
-          {/* Additional Info */}
           <div className="additional-info">
             <div className="info-card">
               <h4>🌅 Sunrise & Sunset</h4>
