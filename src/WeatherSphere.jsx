@@ -9,8 +9,9 @@ const WeatherSphere = () => {
   const [error, setError] = useState('');
   const [unit, setUnit] = useState('metric');
 
-  // ✅ ONLY use environment variable - no hardcoded key
-  const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
+  // ✅ API Key handling (works locally + Netlify)
+  const apiKey = import.meta.env.VITE_WEATHER_API_KEY || "be4a4f573e0420aa2a18e0131598fe68";
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -18,7 +19,7 @@ const WeatherSphere = () => {
           const { latitude, longitude } = position.coords;
           await fetchWeatherByCoords(latitude, longitude);
         },
-        (error) => {
+        () => {
           console.log("Location access denied");
         }
       );
@@ -29,10 +30,10 @@ const WeatherSphere = () => {
     setLoading(true);
     try {
       const currentResponse = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${unit}&appid=${API_KEY}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${unit}&appid=${apiKey}`
       );
       const forecastResponse = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${unit}&appid=${API_KEY}`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${unit}&appid=${apiKey}`
       );
 
       if (!currentResponse.ok || !forecastResponse.ok) throw new Error('Weather data unavailable');
@@ -53,10 +54,10 @@ const WeatherSphere = () => {
     setLoading(true);
     try {
       const currentResponse = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${API_KEY}`
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${apiKey}`
       );
       const forecastResponse = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${API_KEY}`
+        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${apiKey}`
       );
 
       if (!currentResponse.ok || !forecastResponse.ok) throw new Error('City not found');
